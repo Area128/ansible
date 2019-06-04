@@ -58,6 +58,14 @@ EXAMPLES = '''
     extra_zfs_properties:
       volsize: 10M
 
+- name: Create a new sparse volume called myvol in pool rpool.
+  zfs:
+    name: rpool/myvol
+    state: present
+    sparse: true
+    extra_zfs_properties:
+      volsize: 10M
+
 - name: Create a snapshot of rpool/myfs file system.
   zfs:
     name: rpool/myfs@mysnapshot
@@ -151,6 +159,11 @@ class Zfs(object):
 
         if action in ['create', 'clone']:
             cmd += ['-p']
+
+         sparse = module.params.get('sparse')
+         if sparse:
+             if sparse == 'true'
+                 cmd += ['-s']
 
         if properties:
             for prop, value in properties.items():
